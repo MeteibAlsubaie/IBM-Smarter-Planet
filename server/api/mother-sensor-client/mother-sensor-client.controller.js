@@ -78,17 +78,14 @@ export function show(req, res) {
 
 // Creates a new MotherSensorClient in the DB
 export function create(req, res) {
-    console.log(req.body);
-  return MotherSensorClient.create(req.body)
-    .then(saveFeed(req.body))
-    .then(respondWithResult(res, 201))
-    .catch(handleError(res));
-}
-
-export function saveFeed(data) {
-    Feed.create(data, function(err, feed){
-        if(err) console.log(err);
-    });
+    var data = req.body;
+    if (data.type == 'presence') {
+        res.send('OK');
+        return;
+    }
+    return Feed.create(req.body)
+        .then(respondWithResult(res, 201))
+        .catch(handleError(res));
 }
 
 // Updates an existing MotherSensorClient in the DB

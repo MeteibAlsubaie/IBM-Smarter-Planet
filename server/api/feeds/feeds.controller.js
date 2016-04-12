@@ -68,7 +68,7 @@ export function index(req, res) {
 
 // Gets a single Feeds from the DB
 export function show(req, res) {
-  return Feeds.findById(req.params.id).exec()
+  return Feeds.find({nodeUid:req.params.id}).exec()
     .then(handleEntityNotFound(res))
     .then(respondWithResult(res))
     .catch(handleError(res));

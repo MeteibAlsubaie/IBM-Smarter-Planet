@@ -25,3 +25,9 @@
 .navbar-text {
   margin-left: 15px;
 }
+
+/** center align the graph*/
+#curve_chart{
+    margin-left: auto;
+    margin-right: auto;
+}
