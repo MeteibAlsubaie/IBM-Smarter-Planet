@@ -1,7 +1,7 @@
 {
   "name": "smarter-planet",
   "version": "0.0.0",
-  "main": "server/index.js",
+  "main": "server/app.js",
   "dependencies": {
     "express": "^4.13.3",
     "morgan": "~1.6.1",
