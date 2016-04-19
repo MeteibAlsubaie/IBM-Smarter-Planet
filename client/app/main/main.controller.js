@@ -1,6 +1,6 @@
 'use strict';
 
-(function() {
+(function () {
 
     class MainController {
 
@@ -11,9 +11,11 @@
             this.data = { dataset: [] };
             this.google = google;
             this.feedResource = feedResource;
-            this.sensor = { id: '' };
+            this.$scope = $scope;
+            this.color = { name: '' }
+            this.sensorId  = 'Abyr91CL2yYWR7ZUfI2VbaKtoHqoz13I'
 
-            $scope.$on('$destroy', function() {
+            $scope.$on('$destroy', function () {
                 socket.unsyncUpdates('thing');
             });
         }
@@ -29,13 +31,13 @@
             data.addColumn('number', 'Temperature');
 
             if (this !== undefined) {
-                this.data.dataset.forEach(function(item) {
+                this.data.dataset.forEach(function (item) {
                     data.addRow([item.timestamp, item.data.centidegreeCelsius / 100]);
                 });
             }
 
             var options = {
-                title: 'Temperature',
+                //title: 'Temperature',
                 curveType: 'function',
                 legend: { position: 'bottom' }
             };
@@ -46,18 +48,17 @@
         }
 
         $onInit() {
-            this.sensor.id = "";
             this.initGoogleCharts();
             this.$http.get('/api/things').then(response => {
-                //this.awesomeThings = response.data;
-                //this.socket.syncUpdates('thing', this.awesomeThings);
+                this.awesomeThings = response.data;
+                this.socket.syncUpdates('thing', this.awesomeThings);
             });
         }
 
         getFeed() {
-            this.feedResource.getFeed({ _id: this.sensor.id }).then(response => {
+            this.feedResource.getFeed({ feedId: this.sensorId }).then(response => {
                 var dataset = [];
-                response.forEach(function(item) {
+                response.forEach(function (item) {
                     item.timestamp = new Date(item.dateEvent);
                     dataset.push(item);
                 });
